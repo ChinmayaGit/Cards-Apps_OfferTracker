@@ -6,8 +6,9 @@ export function SourcesView() {
       <p className="eyebrow">Sources</p>
       <h1>Where latest offers actually live</h1>
       <p className="lede">
-        Catalog snapshot: {CATALOG_AS_OF}. Banks change caps every month. Use this list the
-        day you pay — Folio is a map, not a live feed.
+        Catalog snapshot: {CATALOG_AS_OF}. On open, Folio also loads <code>live-offers.json</code> for
+        app coupons and card overlays. Banks still change caps every day — tap through to the official
+        app the moment you pay.
       </p>
       <ol className="sources">
         {OFFER_SOURCES.map((s) => (

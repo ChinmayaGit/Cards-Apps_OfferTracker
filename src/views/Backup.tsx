@@ -1,11 +1,12 @@
 import { useRef, useState } from 'react'
-import type { WalletCard } from '../types'
+import type { WalletApp, WalletCard } from '../types'
 import { getProduct } from '../data/catalog'
 import {
   backupFilename,
   downloadBackup,
   formatWhen,
   makeBackup,
+  mergeAppWallets,
   mergeWallets,
   parseBackup,
   type Snapshot,
@@ -13,14 +14,16 @@ import {
 
 export function BackupView({
   wallet,
+  apps,
   snapshots,
   onReplace,
   onMerge,
 }: {
   wallet: WalletCard[]
+  apps: WalletApp[]
   snapshots: Snapshot[]
-  onReplace: (cards: WalletCard[]) => void
-  onMerge: (cards: WalletCard[]) => void
+  onReplace: (cards: WalletCard[], apps?: WalletApp[]) => void
+  onMerge: (cards: WalletCard[], apps?: WalletApp[]) => void
 }) {
   const fileRef = useRef<HTMLInputElement>(null)
   const [msg, setMsg] = useState<string | null>(null)
@@ -29,26 +32,30 @@ export function BackupView({
 
   function applyFile(text: string, mode: 'replace' | 'merge') {
     try {
-      const cards = parseBackup(text)
+      const parsed = parseBackup(text)
       if (mode === 'replace') {
         if (
-          wallet.length > 0 &&
+          (wallet.length > 0 || apps.length > 0) &&
           !window.confirm(
-            `Replace ${wallet.length} card${wallet.length === 1 ? '' : 's'} in this browser with ${cards.length} from the backup?`,
+            `Replace ${wallet.length} card(s) and ${apps.length} app(s) in this browser with ${parsed.cards.length} card(s) and ${parsed.apps.length} app(s) from the backup?`,
           )
         ) {
           return
         }
-        onReplace(cards)
-        setMsg(`Restored ${cards.length} card${cards.length === 1 ? '' : 's'} from file.`)
-      } else {
-        const merged = mergeWallets(wallet, cards)
-        const added = merged.length - wallet.length
-        onMerge(merged)
+        onReplace(parsed.cards, parsed.apps)
         setMsg(
-          added === 0
-            ? 'Nothing new to add — those cards are already in the wallet.'
-            : `Merged ${added} card${added === 1 ? '' : 's'} into this wallet.`,
+          `Restored ${parsed.cards.length} card(s) and ${parsed.apps.length} app(s) from file.`,
+        )
+      } else {
+        const mergedCards = mergeWallets(wallet, parsed.cards)
+        const mergedApps = mergeAppWallets(apps, parsed.apps)
+        const addedCards = mergedCards.length - wallet.length
+        const addedApps = mergedApps.length - apps.length
+        onMerge(mergedCards, mergedApps)
+        setMsg(
+          addedCards === 0 && addedApps === 0
+            ? 'Nothing new to add — those cards and apps are already here.'
+            : `Merged ${addedCards} card(s) and ${addedApps} app(s).`,
         )
       }
       setErr(null)
@@ -72,7 +79,7 @@ export function BackupView({
 
   async function copyJson() {
     try {
-      const body = JSON.stringify(makeBackup(wallet), null, 2)
+      const body = JSON.stringify(makeBackup(wallet, apps), null, 2)
       await navigator.clipboard.writeText(body)
       setCopied(true)
       setErr(null)
@@ -87,27 +94,27 @@ export function BackupView({
       <p className="eyebrow">Backup</p>
       <h1>Keep this wallet</h1>
       <p className="lede">
-        Cards live only in this browser. Download a JSON file to Drive, iCloud, or a USB stick.
-        The file has bank, card type, nickname, and last four — never PAN, CVV, or expiry.
+        Cards and apps live only in this browser. Download a JSON file to Drive, iCloud, or a USB
+        stick. Cards include bank, type, nickname, and last four — never PAN, CVV, or expiry.
       </p>
 
       <div className="backup-grid">
         <article className="offer">
           <h3>Save a copy</h3>
           <p className="offer-lead">
-            {wallet.length} card{wallet.length === 1 ? '' : 's'} in this browser. File name{' '}
-            <code>{backupFilename()}</code>.
+            {wallet.length} card{wallet.length === 1 ? '' : 's'} · {apps.length} app
+            {apps.length === 1 ? '' : 's'}. File name <code>{backupFilename()}</code>.
           </p>
           <div className="backup-actions">
             <button
               type="button"
               className="primary"
               onClick={() => {
-                downloadBackup(wallet)
+                downloadBackup(wallet, apps)
                 setMsg('Backup file downloaded.')
                 setErr(null)
               }}
-              disabled={wallet.length === 0}
+              disabled={wallet.length === 0 && apps.length === 0}
             >
               Download backup
             </button>
@@ -120,8 +127,8 @@ export function BackupView({
         <article className="offer">
           <h3>Restore</h3>
           <p className="offer-lead">
-            Merge adds cards that are not already here. Replace wipes this browser’s wallet and
-            loads the file.
+            Merge adds cards and apps that are not already here. Replace wipes this browser’s lists
+            and loads the file.
           </p>
           <input
             ref={fileRef}

@@ -21,6 +21,18 @@ export type Network = 'Visa' | 'Mastercard' | 'RuPay' | 'Amex' | 'Diners'
 
 export type CardKind = 'credit' | 'debit'
 
+export type Scope = 'all' | 'cards' | 'apps'
+
+export type PayAppId =
+  | 'amazon-pay'
+  | 'pop'
+  | 'cred'
+  | 'gpay'
+  | 'phonepe'
+  | 'paytm'
+  | 'tata-neu'
+  | 'cheq'
+
 export interface Offer {
   id: string
   title: string
@@ -33,6 +45,8 @@ export interface Offer {
   hidden: string[]
   cap?: string
   source: string
+  viaApps?: PayAppId[]
+  fresh?: boolean
 }
 
 export interface CardProduct {
@@ -64,9 +78,36 @@ export interface WalletCard {
   addedAt: number
 }
 
+export interface WalletApp {
+  id: string
+  appId: PayAppId
+  addedAt: number
+}
+
 export interface OfferSource {
   name: string
   kind: string
   url: string
   note: string
+}
+
+export interface PayApp {
+  id: PayAppId
+  name: string
+  short: string
+  kind: string
+  blurb: string
+  accent: string
+  accent2: string
+  url: string
+  bestFor: Category[]
+  partnerProductIds: string[]
+  payHint: string
+  offers: Offer[]
+}
+
+export interface LiveOffersFile {
+  asOf: string
+  apps?: Partial<Record<PayAppId, Offer[]>>
+  cardOffers?: Record<string, Offer[]>
 }

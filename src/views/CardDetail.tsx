@@ -18,7 +18,7 @@ export function CardDetailView({
       <section className="page">
         <p>This card is no longer in the catalog.</p>
         <button type="button" className="linkish" onClick={onBack}>
-          ← Wallet
+          ← Back
         </button>
       </section>
     )
@@ -28,7 +28,7 @@ export function CardDetailView({
   return (
     <section className="page">
       <button type="button" className="linkish" onClick={onBack}>
-        ← Wallet
+        ← Back
       </button>
       <div className="detail-hero">
         <CardPlastic product={product} last4={card.last4} nickname={card.nickname} />

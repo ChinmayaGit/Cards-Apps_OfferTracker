@@ -45,6 +45,7 @@ export function OfferBlock({ offer, cardName }: { offer: Offer; cardName: string
     <article className="offer">
       <header className="offer-head">
         <span className="chip">{offer.category}</span>
+        {offer.fresh ? <span className="chip chip-live">Live</span> : null}
         {offer.cap ? <span className="chip chip-mute">{offer.cap}</span> : null}
       </header>
       <h3>{offer.title}</h3>

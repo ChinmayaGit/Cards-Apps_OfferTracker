@@ -9,7 +9,7 @@ For each offer it shows:
 - **Whether it actually pays** — swipe / chip, tap card, phone tap (GPay / Apple Pay), UPI, or online
 - **Hidden details** — caps, EMI/wallet exclusions, MCC traps
 
-Wallet data stays in **this browser** (`localStorage`). Offers are a curated snapshot (August 2026). Caps move — confirm on the bank or merchant page before you pay.
+Wallet data stays in **this browser** (`localStorage`). Card and app offers load from the bundled catalog plus `public/live-offers.json` (fetched when Folio opens). Caps still move inside each bank/app — confirm the live tile before you pay.
 
 ---
 
@@ -40,6 +40,10 @@ Every offer on cards in your wallet. Search or filter by movies, flights, UPI, l
 ![Offers board](pics/4.png)
 
 ![Offers filtered to flights](pics/5.png)
+
+### Apps
+
+Amazon Pay, POP, CRED, GPay, PhonePe, Paytm, Tata Neu, CheQ. Add the apps you use (same as adding cards). On **Offers** and **Best for**, use **All / Cards / Apps** to mix or split those lists.
 
 ### Best for
 
@@ -77,7 +81,7 @@ Vite prints two URLs:
 
 1. Open **http://localhost:5173/** in Chrome, Safari, Firefox, or Edge.
 2. **Add card** → pick bank and type (optional last 4).
-3. Use **Wallet**, **Offers**, **Best for**, **Backup**, and **Sources**.
+3. Use **Wallet**, **Apps**, **Offers**, **Best for**, **Sources**, and **Backup**.
 4. The wallet is stored only in that browser profile. A different browser or a private window starts empty. Use **Backup** to download JSON and restore on another device.
 
 ### Phone (same Wi‑Fi)
@@ -111,14 +115,26 @@ Then open the Local / Network URLs Vite prints (preview port may differ from 517
 | Tab | What it does |
 | --- | --- |
 | **Wallet** | Cards you hold. Tap one for offers and payment rules. **Backup** in the header opens the backup tab. |
-| **Offers** | All offers from your wallet, with swipe / tap / phone / UPI / online. |
-| **Best for** | Best card in your wallet for movies, flights, dining, UPI, and so on. |
-| **Backup** | Download or copy JSON; merge or replace from a file; restore automatic snapshots. |
+| **Apps** | Pay apps you use. **Add app** like adding a card — CRED, GPay, PhonePe, Tata Neu, and the rest. |
+| **Offers** | **All** mixes card + app offers; **Cards** / **Apps** show one type. Then filter by movies, UPI, bills… |
+| **Best for** | Same **All / Cards / Apps** tabs, then rank for movies, flights, dining, UPI, and so on. |
 | **Sources** | Official places to re-check offers the day you pay. |
+| **Backup** | Download or copy JSON (cards + apps); merge or replace from a file; restore card snapshots. |
 
 **Add card:** no full card number. Last four is optional. Credit and debit live under the same bank.
 
 **UPI:** only **RuPay credit** can use a credit line on QR. Visa / Mastercard / Amex never. Debit UPI spends the **bank account**, not the plastic — debit lounge/movie offers almost never follow a QR.
+
+### Apps & live offers
+
+CRED, PhonePe, Amazon and the rest do not publish a public coupon API, so Folio cannot scrape their private feeds. On every launch it:
+
+1. Shows the bundled app + card catalog immediately.
+2. Fetches `live-offers.json` (same origin; optional `VITE_LIVE_OFFERS_URL` for a remote JSON you host).
+3. Merges those overlays onto apps and cards (offers marked **Live**).
+4. Ranks **which wallet card to use** on each app you added (and flags traps like Paytm wallet load).
+
+Update `public/live-offers.json` and hit **Refresh** (or reload) to pick up new coupons without waiting for a catalog rewrite. Always confirm the in-app tile the day you pay.
 
 ### Backup (laptop ↔ phone)
 

@@ -1,0 +1,187 @@
+{
+  "asOf": "29 Aug 2026",
+  "apps": {
+    "amazon-pay": [
+      {
+        "id": "ap-live-prime-day-bank",
+        "title": "Amazon bank-offer strip (live)",
+        "category": "online",
+        "headline": "HDFC / ICICI / SBI / Axis instant discount tiles sit under Amazon Pay → Bank offers. They change by SKU and hour.",
+        "howToUse": [
+          "Open the product → Coupons → Bank / Amazon Pay offers.",
+          "Match the exact card named on the tile.",
+          "If no tile, fall back to Amazon Pay ICICI 5% or Millennia/SBI Cashback card checkout."
+        ],
+        "where": ["Amazon.in bank offers"],
+        "viaApps": ["amazon-pay"],
+        "payment": { "swipe": "no", "tapCard": "no", "phoneNfc": "no", "upi": "no", "online": "yes" },
+        "hidden": ["Instant discount and statement cashback rarely stack. Read both lines."],
+        "cap": "Per-card / per-transaction on the tile",
+        "source": "Amazon bank offers"
+      }
+    ],
+    "pop": [
+      {
+        "id": "pop-live-shop",
+        "title": "POPshop daily brands (live)",
+        "category": "shopping",
+        "headline": "Brand % off and voucher tiles rotate. Open POP → Shop before you burn coins.",
+        "howToUse": ["POP → POPshop.", "Check min cart, brand, and coin vs rupee split."],
+        "where": ["POPshop"],
+        "viaApps": ["pop"],
+        "payment": { "swipe": "no", "tapCard": "no", "phoneNfc": "no", "upi": "maybe", "online": "yes" },
+        "hidden": ["Joining-benefit vouchers expire on the date printed in POP."],
+        "source": "POP app"
+      }
+    ],
+    "cred": [
+      {
+        "id": "cred-live-store",
+        "title": "CRED Store this week (live)",
+        "category": "shopping",
+        "headline": "Fashion / electronics / travel coupons are week-lot. Coin burn vs ₹ off is on each tile.",
+        "howToUse": ["CRED → Store.", "Open the brand. Screenshot T&Cs if the cart is large."],
+        "where": ["CRED Store"],
+        "viaApps": ["cred"],
+        "payment": { "swipe": "no", "tapCard": "no", "phoneNfc": "no", "upi": "maybe", "online": "yes" },
+        "hidden": ["CRED membership tier can gate the better coupons."],
+        "source": "CRED Store"
+      }
+    ],
+    "gpay": [
+      {
+        "id": "gpay-live-promos",
+        "title": "GPay promo chips (live)",
+        "category": "upi",
+        "headline": "Bank-offer chips on bills and peer pay appear and vanish. They are not your card’s MITC rate.",
+        "howToUse": ["GPay → Promos / the bill screen.", "Pay with the bank account the chip names."],
+        "where": ["GPay Promos"],
+        "viaApps": ["gpay"],
+        "payment": { "swipe": "no", "tapCard": "no", "phoneNfc": "no", "upi": "yes", "online": "yes" },
+        "hidden": ["A ₹100 GPay promo does not replace a 5% card offer on Amazon."],
+        "cap": "Per-chip",
+        "source": "GPay"
+      }
+    ],
+    "phonepe": [
+      {
+        "id": "ppe-live-rewards",
+        "title": "PhonePe Rewards / Switch (live)",
+        "category": "online",
+        "headline": "Gift cards and partner deals under Rewards and Switch. Caps and UPI-only rules sit on the tile.",
+        "howToUse": ["PhonePe → Rewards or Switch.", "Read partner + min spend before you buy a voucher."],
+        "where": ["PhonePe Rewards", "PhonePe Switch"],
+        "viaApps": ["phonepe"],
+        "payment": { "swipe": "no", "tapCard": "no", "phoneNfc": "no", "upi": "yes", "online": "yes" },
+        "hidden": ["Voucher MCC is not Amazon.in Millennia 5%."],
+        "source": "PhonePe"
+      }
+    ],
+    "paytm": [
+      {
+        "id": "paytm-live-movies",
+        "title": "Paytm Movies / travel coupons (live)",
+        "category": "entertainment",
+        "headline": "Codes and cashback on Paytm Movies and Travel are Paytm’s, not BookMyShow bank BOGO.",
+        "howToUse": ["Open Paytm Movies or Travel.", "Apply the listed code. Prefer credit card if the tile allows — skip wallet load."],
+        "where": ["Paytm Movies", "Paytm Travel"],
+        "viaApps": ["paytm"],
+        "payment": { "swipe": "no", "tapCard": "no", "phoneNfc": "no", "upi": "maybe", "online": "yes" },
+        "hidden": ["SBI Elite BMS BOGO is BookMyShow checkout, not Paytm Movies."],
+        "source": "Paytm"
+      }
+    ],
+    "tata-neu": [
+      {
+        "id": "neu-live-pass",
+        "title": "NeuPass & in-app banners (live)",
+        "category": "shopping",
+        "headline": "BigBasket, Croma, and Westside extra % sit as Neu banners. Plus vs Infinity slabs differ.",
+        "howToUse": ["Tata Neu home → offers.", "Pay with Neu Plus/Infinity or Neu UPI ID as the banner states."],
+        "where": ["Tata Neu offers"],
+        "viaApps": ["tata-neu"],
+        "payment": { "swipe": "maybe", "tapCard": "maybe", "phoneNfc": "no", "upi": "maybe", "online": "yes" },
+        "hidden": ["GPay-linked Neu Plus is still the 0.25% UPI base unless you use Neu UPI ID."],
+        "source": "Tata Neu"
+      }
+    ],
+    "cheq": [
+      {
+        "id": "cheq-live-chips",
+        "title": "CheQ chip rate & voucher board (live)",
+        "category": "bills",
+        "headline": "Chip % and voucher multipliers are on the CheQ pay/rewards screens. 1% is the usual pitch, not a law.",
+        "howToUse": ["CheQ → Pay bill to see chips you’ll earn.", "Rewards tab for voucher vs bill-discount math."],
+        "where": ["CheQ"],
+        "viaApps": ["cheq"],
+        "payment": { "swipe": "no", "tapCard": "no", "phoneNfc": "no", "upi": "yes", "online": "yes" },
+        "hidden": ["If a convenience fee appears, subtract it from chip value before you switch from netbanking."],
+        "source": "CheQ"
+      }
+    ]
+  },
+  "cardOffers": {
+    "hdfc-millennia": [
+      {
+        "id": "hdfc-mil-live",
+        "title": "Millennia 5% list — confirm this month",
+        "category": "online",
+        "headline": "Amazon, Flipkart, Myntra, Swiggy, Zomato, BookMyShow, Uber remain the usual 5% set. Shared monthly cap still applies. Not UPI, not Amazon Pay balance.",
+        "howToUse": [
+          "Pay those merchants with Millennia as credit card.",
+          "Open HDFC MyCards / MITC if a merchant looks newly added or dropped."
+        ],
+        "where": ["Amazon", "Flipkart", "Myntra", "Swiggy", "Zomato", "BookMyShow", "Uber"],
+        "viaApps": ["amazon-pay"],
+        "payment": { "swipe": "no", "tapCard": "no", "phoneNfc": "no", "upi": "no", "online": "yes" },
+        "hidden": ["Wallet load and gift cards stay excluded on typical months."],
+        "cap": "Shared monthly 5% cap — live MITC",
+        "source": "HDFC Millennia live check"
+      }
+    ],
+    "sbi-cashback": [
+      {
+        "id": "sbi-cb-live",
+        "title": "SBI Cashback 5% online — live exclusions",
+        "category": "online",
+        "headline": "Still the default 5% online card. Rent, wallet, utilities, fuel, insurance stay out. Amazon must be card checkout.",
+        "howToUse": ["Pay the website/app with SBI Cashback as credit card.", "Skip UPI and wallet."],
+        "where": ["Eligible e-commerce"],
+        "viaApps": ["amazon-pay"],
+        "payment": { "swipe": "no", "tapCard": "no", "phoneNfc": "no", "upi": "no", "online": "yes" },
+        "hidden": ["Merchant MCC can silently drop a site to 1%."],
+        "cap": "Monthly 5% cap — SBI app",
+        "source": "SBI Cashback live check"
+      }
+    ],
+    "icici-amazon": [
+      {
+        "id": "icici-amz-live",
+        "title": "Amazon Pay ICICI slabs this season",
+        "category": "online",
+        "headline": "Prime 5% / non-Prime 3% on Amazon.in with this card is still the product. Partner billers ~2%. Confirm in Amazon Pay → this card.",
+        "howToUse": ["Amazon checkout → Amazon Pay ICICI Bank Credit Card."],
+        "where": ["Amazon.in", "Amazon Pay"],
+        "viaApps": ["amazon-pay"],
+        "payment": { "swipe": "no", "tapCard": "no", "phoneNfc": "no", "upi": "no", "online": "yes" },
+        "hidden": ["Instant bank-offer tiles on a product can replace, not add to, this %."],
+        "source": "Amazon Pay ICICI live"
+      }
+    ],
+    "hdfc-neu-plus": [
+      {
+        "id": "hdfc-neu-plus-live",
+        "title": "Neu Plus UPI cap — live",
+        "category": "upi",
+        "headline": "0.25% any UPI app + 0.75% Tata Neu UPI ID, shared monthly NeuCoin cap (often 500). Fuel/wallet/rent/gov still 0%.",
+        "howToUse": ["Pay QR from Tata Neu UPI ID for the extra slab.", "GPay/PhonePe/CRED = base 0.25% only."],
+        "where": ["Tata Neu UPI", "GPay", "PhonePe", "CRED"],
+        "viaApps": ["tata-neu", "gpay", "phonepe", "cred"],
+        "payment": { "swipe": "no", "tapCard": "no", "phoneNfc": "no", "upi": "yes", "online": "no" },
+        "hidden": ["Education via CRED/CheQ remains a common exclusion."],
+        "cap": "Monthly NeuCoin UPI cap",
+        "source": "Tata Neu Plus live"
+      }
+    ]
+  }
+}

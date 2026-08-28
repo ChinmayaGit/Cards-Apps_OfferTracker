@@ -1645,8 +1645,36 @@ export const PRODUCTS: CardProduct[] = [...CORE_PRODUCTS, ...MORE_PRODUCTS, ...D
 const productById = new Map(PRODUCTS.map((p) => [p.id, p]))
 const bankById = new Map(BANKS.map((b) => [b.id, b]))
 
+let cardOfferOverlay: Record<string, Offer[]> = {}
+
+function mergeOffers(base: Offer[], extra: Offer[]): Offer[] {
+  const byId = new Map(base.map((o) => [o.id, o]))
+  for (const o of extra) byId.set(o.id, o)
+  const seen = new Set<string>()
+  const out: Offer[] = []
+  for (const o of base) {
+    out.push(byId.get(o.id)!)
+    seen.add(o.id)
+  }
+  for (const o of extra) {
+    if (!seen.has(o.id)) {
+      out.push(o)
+      seen.add(o.id)
+    }
+  }
+  return out
+}
+
+export function applyCardOfferOverlay(next: Record<string, Offer[]>): void {
+  cardOfferOverlay = next
+}
+
 export function getProduct(id: string): CardProduct | undefined {
-  return productById.get(id)
+  const p = productById.get(id)
+  if (!p) return undefined
+  const extra = cardOfferOverlay[id]
+  if (!extra?.length) return p
+  return { ...p, offers: mergeOffers(p.offers, extra) }
 }
 
 export function getBank(id: string): Bank | undefined {

@@ -1,22 +1,42 @@
 import { useEffect, useState } from 'react'
 import type { CardProduct, WalletCard } from './types'
-import { loadWallet, saveWallet, uid } from './lib/storage'
+import {
+  loadSnapshots,
+  loadWallet,
+  pushSnapshot,
+  saveWallet,
+  uid,
+} from './lib/storage'
 import { AddCard } from './components/AddCard'
 import { WalletView } from './views/Wallet'
 import { OffersView } from './views/Offers'
 import { BestForView } from './views/BestFor'
+import { BackupView } from './views/Backup'
 import { SourcesView } from './views/Sources'
 import { CardDetailView } from './views/CardDetail'
 
-type Tab = 'wallet' | 'offers' | 'best' | 'sources'
+type Tab = 'wallet' | 'offers' | 'best' | 'backup' | 'sources'
+
+const TABS: { id: Tab; desk: string; mob: string }[] = [
+  { id: 'wallet', desk: 'Wallet', mob: 'Wallet' },
+  { id: 'offers', desk: 'Offers', mob: 'Offers' },
+  { id: 'best', desk: 'Best for', mob: 'Best' },
+  { id: 'backup', desk: 'Backup', mob: 'Backup' },
+  { id: 'sources', desk: 'Sources', mob: 'Sources' },
+]
 
 export default function App() {
   const [wallet, setWallet] = useState<WalletCard[]>(() => loadWallet())
+  const [snapshots, setSnapshots] = useState(() => loadSnapshots())
   const [tab, setTab] = useState<Tab>('wallet')
   const [adding, setAdding] = useState(false)
   const [openId, setOpenId] = useState<string | null>(null)
 
   useEffect(() => {
+    const stored = loadWallet()
+    if (JSON.stringify(stored) !== JSON.stringify(wallet)) {
+      setSnapshots(pushSnapshot(stored))
+    }
     saveWallet(wallet)
   }, [wallet])
 
@@ -53,14 +73,7 @@ export default function App() {
           </div>
         </div>
         <nav className="nav-desk">
-          {(
-            [
-              ['wallet', 'Wallet'],
-              ['offers', 'Offers'],
-              ['best', 'Best for'],
-              ['sources', 'Sources'],
-            ] as const
-          ).map(([id, label]) => (
+          {TABS.map(({ id, desk }) => (
             <button
               key={id}
               type="button"
@@ -70,7 +83,7 @@ export default function App() {
                 setTab(id)
               }}
             >
-              {label}
+              {desk}
             </button>
           ))}
         </nav>
@@ -92,25 +105,26 @@ export default function App() {
             wallet={wallet}
             onAdd={() => setAdding(true)}
             onOpen={setOpenId}
+            onBackup={() => setTab('backup')}
           />
         ) : tab === 'offers' ? (
           <OffersView wallet={wallet} onAdd={() => setAdding(true)} />
         ) : tab === 'best' ? (
           <BestForView wallet={wallet} onAdd={() => setAdding(true)} />
+        ) : tab === 'backup' ? (
+          <BackupView
+            wallet={wallet}
+            snapshots={snapshots}
+            onReplace={setWallet}
+            onMerge={setWallet}
+          />
         ) : (
           <SourcesView />
         )}
       </main>
 
       <nav className="nav-mob">
-        {(
-          [
-            ['wallet', 'Wallet'],
-            ['offers', 'Offers'],
-            ['best', 'Best'],
-            ['sources', 'Sources'],
-          ] as const
-        ).map(([id, label]) => (
+        {TABS.map(({ id, mob }) => (
           <button
             key={id}
             type="button"
@@ -120,7 +134,7 @@ export default function App() {
               setTab(id)
             }}
           >
-            {label}
+            {mob}
           </button>
         ))}
       </nav>

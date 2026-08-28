@@ -131,8 +131,9 @@ a {
   background: transparent;
   border: 0;
   color: var(--muted);
-  padding: 8px 12px;
+  padding: 8px 10px;
   border-radius: 999px;
+  white-space: nowrap;
 }
 
 .nav-desk button.on,
@@ -158,6 +159,13 @@ main {
   align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
+}
+
+.page-head-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
 }
 
 .eyebrow {
@@ -212,6 +220,15 @@ h4 {
 .primary {
   background: var(--gold);
   color: var(--bg);
+}
+
+.ghost-btn {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-weight: 600;
+  background: transparent;
+  color: var(--cream);
 }
 
 .danger {
@@ -730,6 +747,37 @@ h4 {
   line-height: 1.55;
 }
 
+.backup-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin: 28px 0 12px;
+}
+
+.backup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.backup-ok,
+.backup-err {
+  margin: 12px 0 0;
+  padding: 12px 16px;
+  border-radius: 12px;
+}
+
+.backup-ok {
+  background: color-mix(in srgb, var(--yes) 16%, transparent);
+  color: var(--yes);
+}
+
+.backup-err {
+  background: color-mix(in srgb, var(--danger) 16%, transparent);
+  color: var(--danger);
+}
+
 @media (max-width: 800px) {
   .nav-desk {
     display: none;
@@ -746,6 +794,11 @@ h4 {
     padding: 6px;
     z-index: 10;
     justify-content: space-between;
+  }
+  .nav-mob button {
+    flex: 1;
+    padding: 8px 4px;
+    font-size: 12px;
   }
   .pay-grid {
     grid-template-columns: 1fr 1fr;

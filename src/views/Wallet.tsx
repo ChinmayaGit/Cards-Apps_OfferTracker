@@ -9,10 +9,12 @@ export function WalletView({
   wallet,
   onAdd,
   onOpen,
+  onBackup,
 }: {
   wallet: WalletCard[]
   onAdd: () => void
   onOpen: (id: string) => void
+  onBackup: () => void
 }) {
   return (
     <section className="page">
@@ -21,9 +23,14 @@ export function WalletView({
           <p className="eyebrow">Wallet</p>
           <h1>Your cards</h1>
         </div>
-        <button type="button" className="primary" onClick={onAdd}>
-          Add card
-        </button>
+        <div className="page-head-actions">
+          <button type="button" className="ghost-btn" onClick={onBackup}>
+            Backup
+          </button>
+          <button type="button" className="primary" onClick={onAdd}>
+            Add card
+          </button>
+        </div>
       </header>
       <p className="lede">
         No PAN, CVV, or expiry. Choose bank and type. Numbers show as XXXX unless you add
